@@ -7,7 +7,7 @@ port = TCPServer.open('127.0.0.1', 0) {|server| server.addr[1]}
 # start server
 require_relative 'search/main'
 set :port, port
-set :views, '/var/www/web-platform/views'
+set :views, File.expand_path('../../search/views', __FILE__)
 server = fork {Rack::Builder.new {run Sinatra::Application}}
 
 # capture web pages (html, js, json, css)

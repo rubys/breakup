@@ -23,7 +23,7 @@ class Main < React
     #
     # Input form
     #
-    _input value: @search, placeholder: 'search string'
+    _input.search! value: @search, placeholder: 'search string'
     _div do
       _input type: 'checkbox', checked: @checked
       _span 'include references'
@@ -80,8 +80,9 @@ class Main < React
     end
   end
 
-  # fetch data on initial load
+  # focus on input field, fetch data on initial load
   def componentDidMount()
+    ~'#search'.focus()
     fetch('index.json') {|response| @index = response}
     fetch('links.json') {|response| @links = response}
     fetch('doctitle.json') {|response| @doctitle = response}

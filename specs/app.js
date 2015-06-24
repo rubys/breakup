@@ -1,5 +1,3 @@
-var SPECS = "http://darobin.github.io/breakup/specs";
-
 // utility routine to wrap XHR
 function fetch(target, callback) {
   var xhr = new XMLHttpRequest();
@@ -30,6 +28,7 @@ var Main = React.createClass({
       // Input form
       //
       $_.push(React.createElement("input", {
+        id: "search",
         value: self.state.search,
         placeholder: "search string",
 
@@ -99,7 +98,7 @@ var Main = React.createClass({
 
                   $_.push(React.createElement("li", null, React.createElement(
                     "a",
-                    {href: SPECS + "/" + href},
+                    {href: href},
                     title.text + " - " + self.state.doctitle[base]
                   )));
 
@@ -117,7 +116,7 @@ var Main = React.createClass({
                         // next if title.id == section.id and base == linkbase
                         $_.push(React.createElement("li", null, React.createElement(
                           "a",
-                          {href: SPECS + "/" + linkbase + "/#" + section.id},
+                          {href: linkbase + "/#" + section.id},
                           self.state.doctitle[linkbase] + " " + section.text
                         )))
                       });
@@ -149,9 +148,10 @@ var Main = React.createClass({
     }())
   },
 
-  // fetch data on initial load
+  // focus on input field, fetch data on initial load
   componentDidMount: function() {
     var self = this;
+    document.getElementById("search").focus();
 
     fetch("index.json", function(response) {
       self.setState({index: response})
