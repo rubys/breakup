@@ -43,6 +43,17 @@ That's pretty easy, just clone this repo and then:
 
 And you're done!
 
+## Building the search function
+
+You can add search functionality by running the following commands:
+
+    bundle update
+    rake search
+
+Note: if you don't have bundler installed, you can install it via:
+
+    [sudo] gem install bundler
+
 ## The Proposed Split
 
 The proposed split is really just a way to get conversation going. I have a well-documented 

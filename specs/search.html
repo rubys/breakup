@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Web Platform Search</title>
+    <link rel="stylesheet" href="stylesheets/app.css"/>
+  </head>
+
+  <body>
+    <h1>Web Platform Search</h1>
+
+    <p>Data source: <a href="http://darobin.github.io/breakup/specs/">break up specs</a>.</p>
+
+    <h2>Disclaimers</h2>
+
+    <p>Currently indexes <code>&lt;dfn&gt;</code> elements only.</p>
+    <p>Data source is known to have problems with references. See
+      <a href="https://lists.w3.org/Archives/Public/public-html/2015Jun/0009.html">announcement</a>.</p>
+
+    <h2>Search</h2>
+
+    <p>Enter a minimum of three characters to start the search:</p>
+
+    <div id="main">
+      <span data-reactid=".c335e7kglc" data-react-checksum="2040813956">
+        <input value="" placeholder="search string" data-reactid=".c335e7kglc.0"/>
+        <div data-reactid=".c335e7kglc.1">
+          <input type="checkbox" data-reactid=".c335e7kglc.1.0"/>
+          <span data-reactid=".c335e7kglc.1.1">include references</span>
+        </div>
+      </span>
+    </div>
+
+    <script src="assets/react-min.js"></script>
+    <script src="app.js" lang="text/javascript"></script>
+    <script>React.render(React.createElement(Main), document.getElementById("main"))</script>
+  </body>
+</html>
