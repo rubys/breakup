@@ -4,7 +4,17 @@ function fetch(target, callback) {
   xhr.open("GET", target, true);
 
   xhr.onreadystatechange = function() {
-    if (xhr.readyState == 4 && xhr.response) callback(xhr.response)
+    var response = null;
+
+    if (xhr.readyState == 4) {
+      if (xhr.responseType == "json") {
+        response = xhr.response
+      } else if (xhr.responseText) {
+        response = JSON.parse(xhr.responseText)
+      };
+
+      if (response) callback(response)
+    }
   };
 
   xhr.responseType = "json";

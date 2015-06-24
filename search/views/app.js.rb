@@ -4,7 +4,17 @@ def fetch(target, &callback)
   xhr.open('GET', target, true)
 
   def xhr.onreadystatechange()
-    callback(xhr.response) if xhr.readyState == 4 and xhr.response
+    response = nil
+
+    if xhr.readyState == 4
+      if xhr.responseType == :json
+        response = xhr.response
+      elsif xhr.responseText
+        response = JSON.parse(xhr.responseText)
+      end
+
+      callback(response) if response
+    end
   end
 
   xhr.responseType = :json
