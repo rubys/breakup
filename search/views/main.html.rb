@@ -17,6 +17,8 @@ _html _width: 120 do
 
   _p! do
     _ 'Currently indexes '
+    _code! { _ '<section><h'; _em 'n'; _ '>'}
+    _ ' and '
     _code '<dfn>'
     _ ' elements only.'
   end

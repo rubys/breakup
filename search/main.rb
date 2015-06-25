@@ -44,9 +44,18 @@ Dir['*/index.html'].each do |spec|
   # extract title
   doctitle[base] = doc.at('title').text
 
+  # index sections that start with a header
+  doc.search('section').each do |section|
+    header = section.first_element_child
+    next unless header.name =~ /^h[1-6]$/
+    id = header['id'] || "h-#{header.text}".downcase.gsub(/\W+/, '-')
+    value = {text: header.text, id: id}
+    index[header.text.gsub(/\s+/, ' ')] << [value, base, id]
+  end
+
   # index dfn's
   doc.search('dfn').each do |dfn|
-    id = dfn['id'] || "dfn=#{dfn.text}".downcase.gsub(/\W+/, '-')
+    id = dfn['id'] || "dfn-#{dfn.text}".downcase.gsub(/\W+/, '-')
     value = title(dfn)
     value = {text: value.text, id: value['id']} if value
     index[dfn.text.gsub(/\s+/, ' ')] << [value, base, id]
