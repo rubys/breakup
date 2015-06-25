@@ -13,3 +13,9 @@ task 'clean' do
   rm_rf Dir['specs/*.js', 'specs/*.json', 'specs/search.html', 'specs/assets',
     'specs/stylesheets']
 end
+
+task 'server' => 'clean' do
+  Dir.chdir 'search' do
+    sh 'puma'
+  end
+end
