@@ -61,6 +61,30 @@ Dir['*/index.html'].each do |spec|
     index[dfn.text.gsub(/\s+/, ' ')] << [value, base, id]
   end
 
+  # index code
+  groups = ["node", "interface", "exception", "IDL attribute", "method",
+    "event", "object", "attribute", "element"]
+  doc.search('code').each do |code|
+    id = code['id']
+    next unless id
+
+    text = code.text
+
+    # append next word from text if a recognized group
+    node = code.next
+    if node and node.text?
+      word = node.text.strip.split.first.to_s.sub(/\W?s?\W*$/, '')
+      if word == 'IDL'
+        word = node.text[/(IDL\s+\w+?)s?\b/, 1].to_s.sub(/\s+/, ' ')
+      end
+      text += ' ' + word if groups.include? word
+    end
+
+    value = title(code)
+    value = {text: value.text, id: value['id']} if value
+    index[text.gsub(/\s+/, ' ')] << [value, base, id]
+  end
+
   # capture links
   doc.search('a').each do |a|
     href = a['href']
