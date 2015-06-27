@@ -80,10 +80,10 @@ var Main = React.createClass({
           var $_ = ["dl", null];
 
           self.state.index.forEach(function(entry, index) {
-            var title = (entry[0] ? entry[0] : "\"\"");
+            var entry_title = (entry[0] ? entry[0] : "\"\"");
 
             if (!terms.every(function(term) {
-              return title.toLowerCase().indexOf(term) != -1
+              return entry_title.toLowerCase().indexOf(term) != -1
             })) return;
 
             found = true;
@@ -91,7 +91,7 @@ var Main = React.createClass({
             //
             // Matching definitions
             //
-            $_.push(React.createElement("dt", {key: "dt-" + index}, title));
+            $_.push(React.createElement("dt", {key: "dt-" + index}, entry_title));
 
             $_.push(React.createElement(
               "dd",
@@ -101,16 +101,30 @@ var Main = React.createClass({
                 var $_ = ["ul", null];
 
                 entry[1].forEach(function(values) {
-                  title = values[0];
+                  var title = values[0];
                   var base = values[1];
                   var id = values[2];
                   var href = base + "/#" + id;
 
-                  $_.push(React.createElement("li", null, React.createElement(
-                    "a",
-                    {href: href},
-                    title.text + " - " + self.state.doctitle[base]
-                  )));
+                  $_.push(React.createElement.apply(React, function() {
+                    var $_ = ["li", null];
+
+                    if (title.text == entry_title && title.id == id) {
+                      $_.push(React.createElement(
+                        "a",
+                        {href: href},
+                        self.state.doctitle[base]
+                      ))
+                    } else {
+                      $_.push(React.createElement(
+                        "a",
+                        {href: href},
+                        title.text + " - " + self.state.doctitle[base]
+                      ))
+                    };
+
+                    return $_
+                  }()));
 
                   //
                   // references
@@ -122,8 +136,8 @@ var Main = React.createClass({
                       self.state.links[href].forEach(function(link) {
                         var section = link[0];
                         var linkbase = link[1];
+                        if (title.id == section.id && base == linkbase) return;
 
-                        // next if title.id == section.id and base == linkbase
                         $_.push(React.createElement("li", null, React.createElement(
                           "a",
                           {href: linkbase + "/#" + section.id},

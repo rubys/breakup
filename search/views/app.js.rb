@@ -48,14 +48,14 @@ class Main < React
       terms = @search.split(/\s+/).map {|term| term.downcase()}
 
       _dl @index do |entry, index|
-        title = entry[0] ? entry[0] : '""'
-        next unless terms.all? {|term| title.downcase().include? term}
+        entry_title = entry[0] ? entry[0] : '""'
+        next unless terms.all? {|term| entry_title.downcase().include? term}
         found = true
 
         #
         # Matching definitions
         #
-        _dt title, key: "dt-#{index}"
+        _dt entry_title, key: "dt-#{index}"
         _dd key: "dd-#{index}" do
           _ul entry[1] do |values|
             title = values[0]
@@ -64,7 +64,11 @@ class Main < React
 
             href = "#{base}/##{id}"
             _li do
-              _a "#{title.text} - #{@doctitle[base]}", href: href
+              if title.text == entry_title and title.id == id
+                _a @doctitle[base], href: href
+              else
+                _a "#{title.text} - #{@doctitle[base]}", href: href
+              end
             end
 
             #
@@ -74,7 +78,7 @@ class Main < React
               _ul @links[href] do |link|
                 section = link[0]
                 linkbase = link[1]
-                # next if title.id == section.id and base == linkbase
+                next if title.id == section.id and base == linkbase
                 _li do
                   _a "#{@doctitle[linkbase]} #{section.text}",
                     href: "#{linkbase}/##{section.id}"
